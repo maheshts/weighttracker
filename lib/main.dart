@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:weighttracker/screens/addweight.dart';
 import 'package:weighttracker/screens/dashboard.dart';
 
 void main() {
@@ -25,7 +26,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.brown,
       ),
-      home: DashBoard(),
+      home: AddWeight(),
     );
   }
 }

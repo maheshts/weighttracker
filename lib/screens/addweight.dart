@@ -23,7 +23,7 @@ class _AddWeightState extends State<AddWeight> {
           child: TextFormField(
             validator: (value) {
               if (value!.isEmpty) {
-                return 'Please Enter Student Name';
+                return 'Please Enter Weight';
               }
               if (value.trim() == "")
                 return "Only Space is Not Valid!!!";
@@ -39,8 +39,8 @@ class _AddWeightState extends State<AddWeight> {
                         color: Colors.purple,
                         width: 2,
                         style: BorderStyle.solid)),
-                // hintText: "Student Name",
-                labelText: "Student Name",
+                labelText: "Weight",
+                hintText: "Weight in KG",
                 icon: Icon(
                   Icons.business_center,
                   color: Colors.purple,

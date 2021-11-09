@@ -37,9 +37,20 @@ class _DashBoardState extends State<DashBoard> {
     return SafeArea(
       child: Scaffold(
         floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => AddWeight()));
+          onPressed: () async {
+           // Navigator.push(ontext, MaterialPageRoute(builder: (context) => AddWeight()));
+            Map results =  await Navigator.of(context).push(new MaterialPageRoute<dynamic>(
+              builder: (BuildContext context) {
+                return new AddWeight();
+              },
+            ));
+            //var results = await Navigator.pushNamed(context, AddWeight());
+            if (results != null && results.containsKey('selection')) {
+              setState(() {
+                initData();
+                //_selection = results['selection'];
+              });
+            }
           },
           child: Icon(Icons.add),
         ),
@@ -53,7 +64,11 @@ class _DashBoardState extends State<DashBoard> {
             slivers: [
               SliverAppBar(
                 // Provide a standard title.
-                title: Text("Weight Tracker"),
+                title: Text("Weight Tracker", style: TextStyle(
+                  color: Colors.amber,
+                  fontSize: 22.0,
+                  fontFamily: 'Arial-Semibold',
+                )),
                 centerTitle: true,
                 // Allows the user to reveal the app bar if they begin scrolling
                 // back up the list of items.
@@ -61,15 +76,20 @@ class _DashBoardState extends State<DashBoard> {
                 // Display a placeholder widget to visualize the shrinking size.
                 flexibleSpace: FlexibleSpaceBar(
                   centerTitle: true,
-                  title: Text("Average: " + average,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 22.0,
-                      )),
+                  title: Padding(
+                    padding: const EdgeInsets.fromLTRB(2, 2,2,20),
+                    child: Text("Average: " + average,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 24.0,
+                          fontFamily: 'Arial-Semibold',
+                        )),
+                  ),
                 ),
 
                 // Make the initial height of the SliverAppBar larger than normal.
-                expandedHeight: 180,
+               // expandedHeight: 180,
+                expandedHeight: MediaQuery.of(context).size.height/3,
               ),
               // Next, create a SliverList
               SliverList(
@@ -99,7 +119,7 @@ class _DashBoardState extends State<DashBoard> {
                                       style: TextStyle(
                                           color: Colors.amber,
                                           fontSize: 18,
-                                          fontWeight: FontWeight.w900),
+                                          fontWeight: FontWeight.w700),
                                     ),
                                   ),
                                   Text(
@@ -123,7 +143,7 @@ class _DashBoardState extends State<DashBoard> {
                                       style: TextStyle(
                                           color: Colors.amber,
                                           fontSize: 18,
-                                          fontWeight: FontWeight.w900),
+                                          fontWeight: FontWeight.w700),
                                     ),
                                   ),
                                   Text(
@@ -147,7 +167,7 @@ class _DashBoardState extends State<DashBoard> {
                                       style: TextStyle(
                                           color: Colors.amber,
                                           fontSize: 18,
-                                          fontWeight: FontWeight.w900),
+                                          fontWeight: FontWeight.w700),
                                     ),
                                   ),
                                   Text(

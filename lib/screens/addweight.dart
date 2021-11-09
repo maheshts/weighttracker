@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:weighttracker/model/weight_model.dart';
+import 'package:weighttracker/screens/dashboard.dart';
 
 class AddWeight extends StatefulWidget {
   @override
@@ -60,180 +61,195 @@ class _AddWeightState extends State<AddWeight> {
     super.initState();
   }
 
+  navigate() {
+    return Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => DashBoard()));
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      // header for app>>>>>
-      appBar: AppBar(
-        title: Text("Add Weight"),
-        automaticallyImplyLeading: true,
-        centerTitle: true,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            GestureDetector(
-                onTap: () {
-                  selectTime(context);
-                },
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                  child: customBox(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Choose Time: ",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,
-                              fontWeight: FontWeight.w900),
-                          textAlign: TextAlign.center,
-                        ),
-                        Text(
-                          " ${selectedTime.hour}:${selectedTime.minute} ",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600),
-                          textAlign: TextAlign.center,
-                        ),
-                      ],
-                    ),
-                  ),
-                )),
-            SizedBox(
-              height: 20,
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: 10, right: 10, bottom: 10),
-              child: customBox(
-                child: TextFormField(
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Please Enter Weight';
-                    }
-                    if (value.trim() == "") return "Only Space is Not Valid!!!";
-                    return null;
+    return WillPopScope(
+      onWillPop: () async {
+        return navigate();
+      },
+      child: Scaffold(
+        // header for app>>>>>
+        appBar: AppBar(
+          title: Text("Add Weight"),
+          automaticallyImplyLeading: true,
+          centerTitle: true,
+        ),
+        body: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              GestureDetector(
+                  onTap: () {
+                    selectTime(context);
                   },
-                  controller: weightController,
-                  keyboardType: TextInputType.number,
-                  // keyboardAppearance: ,
-                  decoration: const InputDecoration(
-                      border: OutlineInputBorder(borderSide: BorderSide.none),
-                      contentPadding: EdgeInsets.only(left: 10),
-                      labelText: "Weight",
-                      hintText: "Weight in KG",
-                      icon: Padding(
-                        padding: EdgeInsets.only(left: 10),
-                        child: Icon(
-                          Icons.line_weight,
-                          color: Colors.white,
-                        ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                    child: customBox(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Choose Time: ",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w900),
+                            textAlign: TextAlign.center,
+                          ),
+                          Text(
+                            " ${selectedTime.hour}:${selectedTime.minute} ",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
                       ),
-                      hintStyle: TextStyle(
+                    ),
+                  )),
+              SizedBox(
+                height: 20,
+              ),
+              Padding(
+                padding: EdgeInsets.only(left: 10, right: 10, bottom: 10),
+                child: customBox(
+                  child: TextFormField(
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Please Enter Weight';
+                      }
+                      if (value.trim() == "")
+                        return "Only Space is Not Valid!!!";
+                      return null;
+                    },
+                    controller: weightController,
+                    keyboardType: TextInputType.number,
+                    // keyboardAppearance: ,
+                    decoration: const InputDecoration(
+                        border: OutlineInputBorder(borderSide: BorderSide.none),
+                        contentPadding: EdgeInsets.only(left: 10),
+                        labelText: "Weight",
+                        hintText: "Weight in KG",
+                        icon: Padding(
+                          padding: EdgeInsets.only(left: 10),
+                          child: Icon(
+                            Icons.line_weight,
+                            color: Colors.white,
+                          ),
+                        ),
+                        hintStyle: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600),
+                        fillColor: Colors.white,
+                        labelStyle: TextStyle(
                           color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600),
-                      fillColor: Colors.white,
-                      labelStyle: TextStyle(
+                        )),
+                    style: TextStyle(
                         color: Colors.white,
-                      )),
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600),
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600),
+                  ),
                 ),
               ),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            GestureDetector(
-                onTap: () {
-                  showDate(context).then((value) {
-                    setState(() {
-                      dateData = _date.toString().substring(0, 11);
-                      var date = dateData;
-                      dateData = dateData.toString();
-                      dateController.text = date;
+              SizedBox(
+                height: 20,
+              ),
+              GestureDetector(
+                  onTap: () {
+                    showDate(context).then((value) {
+                      setState(() {
+                        dateData = _date.toString().substring(0, 11);
+                        var date = dateData;
+                        dateData = dateData.toString();
+                        dateController.text = date;
+                      });
                     });
-                  });
-                },
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                  child: customBox(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Select date:  ",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,
-                              fontWeight: FontWeight.w900),
-                          textAlign: TextAlign.center,
-                        ),
-                        Text(
-                          "$dateData",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600),
-                          textAlign: TextAlign.center,
-                        ),
-                      ],
-                    ),
-                  ),
-                )),
-            SizedBox(
-              height: 30,
-            ),
-            Container(
-              width: 200,
-              child: ElevatedButton(
-                  onPressed: () async {
-                    var weight = weightController.text;
-                    var date = dateData;
-                    var timeData = selectedTime.hour.toString() +
-                        ":" +
-                        selectedTime.minute.toString();
-                    if (weight.isEmpty || date.isEmpty || timeData.isEmpty) {
-                      setState(() {
-                        isAddLoading = false;
-                      });
-                      return alert(context,
-                          headerText: "Attention!",
-                          content: "Please enter all details carefully!");
-                    } else {
-                      setState(() {
-                        isAddLoading = true;
-                      });
-                      setState(() {
-                        srNum = int.parse(srNum.toString());
-                      });
-                      WeightModel model = new WeightModel(
-                          srNum: int.parse(srNum.toString()),
-                          weightNum: double.parse(weight),
-                          dateStamp: date,
-                          timeStamp: timeData);
-
-                      // var box = await Hive.openBox<WeightModel>('saveTask');
-                      await box.add(model);
-                      print("added");
-                      srNum++;
-                      setState(() {
-                        isAddLoading = false;
-                      });
-                    }
                   },
-                  child: isAddLoading
-                      ? const Text("please wait..")
-                      : const Text("Add")),
-            )
-          ],
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                    child: customBox(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Select date:  ",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w900),
+                            textAlign: TextAlign.center,
+                          ),
+                          Text(
+                            "$dateData",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+                      ),
+                    ),
+                  )),
+              SizedBox(
+                height: 30,
+              ),
+              Container(
+                width: 200,
+                child: ElevatedButton(
+                    onPressed: () async {
+                      var weight = weightController.text;
+                      var date = dateData;
+                      var timeData = selectedTime.hour.toString() +
+                          ":" +
+                          selectedTime.minute.toString();
+                      if (weight.isEmpty || date.isEmpty || timeData.isEmpty) {
+                        setState(() {
+                          isAddLoading = false;
+                        });
+                        return alert(context,
+                            headerText: "Attention!",
+                            content: "Please enter all details carefully!");
+                      } else {
+                        setState(() {
+                          isAddLoading = true;
+                        });
+                        setState(() {
+                          srNum = int.parse(srNum.toString());
+                        });
+                        WeightModel model = new WeightModel(
+                            srNum: int.parse(srNum.toString()),
+                            weightNum: double.parse(weight),
+                            dateStamp: date,
+                            timeStamp: timeData);
+
+                        // var box = await Hive.openBox<WeightModel>('saveTask');
+                        await box.add(model);
+                        print("added");
+                        srNum++;
+                        weightController.clear();
+                        dateData = "";
+                        setState(() {
+                          isAddLoading = false;
+                        });
+                        return alert(context,
+                            headerText: "Helo!", content: "Successfully Added");
+                      }
+                    },
+                    child: isAddLoading
+                        ? const Text("please wait..")
+                        : const Text("Add")),
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -256,7 +272,7 @@ class _AddWeightState extends State<AddWeight> {
       barrierDismissible: false,
       context: context,
       builder: (ctx) => AlertDialog(
-        backgroundColor: Colors.blueGrey.shade300,
+        backgroundColor: Colors.blueGrey.shade700,
         title: Text(
           headerText!,
           style: TextStyle(color: Colors.white),
@@ -272,7 +288,7 @@ class _AddWeightState extends State<AddWeight> {
             },
             child: Text(
               "Ok",
-              style: TextStyle(color: Colors.green, fontSize: 18),
+              style: TextStyle(color: Colors.white, fontSize: 18),
             ),
           ),
         ],
